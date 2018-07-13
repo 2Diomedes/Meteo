@@ -37,20 +37,17 @@ $(document).ready(function() {
           success: function(cityData, statut) {
             var marker = L.marker([cityData['coord']['lat'], cityData['coord']['lon']]).addTo(mymap);
 
-            $.ajax({
-              url: "http://openweathermap.org/img/w/10d.png"
-              type: 'GET',
-              dataType: 'json',
-              success: function(cityPycto, statut) {
-                console.log(cityPycto);
-                marker.bindPopup('<p>' + cityData['name'] + '<br />pycto du temps< /p>').openPopup();
+
+
+                marker.bindPopup('<p>' + cityData['name'] + '<img src="http://openweathermap.org/img/w/'+ cityData['weather'][0]['icon'] +'.png"/><br />pycto du temps ').openPopup();
                 var popup = L.popup()
                   .setLatLng([cityData['coord']['lat'], cityData['coord']['lon']])
                   .setContent()
                   .openOn(mymap);
-              }
+                  // cityData['weather']['icon']
+                  console.log(cityData['weather'][0]['icon']);
 
-            })
+
 
           }
 
