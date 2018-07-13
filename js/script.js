@@ -25,7 +25,6 @@ $(document).ready(function() {
     type: 'GET',
     dataType: 'json',
     success: function(data, statut) {
-      console.log(data);
       for (dept of data['records']) {
         var shape = dept['fields']['geo_shape'];
         var city = dept['fields']['nom_chf'];
@@ -36,11 +35,19 @@ $(document).ready(function() {
           type: 'GET',
           dataType: 'json',
           success: function(cityData, statut) {
-            cityLat = cityData['coord']['lat'];
-            cityLon = cityData['coord']['lon'];
-            L.marker([cityData['coord']['lat'], cityData['coord']['lon']]).addTo(mymap);
+            var marker = L.marker([cityData['coord']['lat'], cityData['coord']['lon']]).addTo(mymap);
+
+            marker.bindPopup('<p>'+cityData['name']+'<br />Pycto du temps</p>').openPopup();
+
+            var popup = L.popup()
+            .setLatLng([cityData['coord']['lat'], cityData['coord']['lon']])
+            .setContent()
+            .openOn(mymap);
           }
+
         })
+
+
       }
     }
   });
